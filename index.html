@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Музыка по клику</title>
+  <style>
+    body {
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    img {
+      cursor: pointer;
+      width: 300px;
+      height: auto;
+      border: 4px solid #fff;
+      border-radius: 12px;
+      transition: 0.5s;
+    }
+  </style>
+</head>
+<body>
+
+<img id="mainImage" src="image.png" alt="Click to play" onclick="playSound()">
+<audio id="audio" src="sound.mp3"></audio>
+
+<script>
+  const audio = document.getElementById("audio");
+  const image = document.getElementById("mainImage");
+  let hasChanged = false;
+
+  function playSound() {
+    audio.currentTime = 0;
+    audio.play();
+    hasChanged = false;
+  }
+
+  audio.addEventListener("timeupdate", () => {
+    const timeLeft = audio.duration - audio.currentTime;
+
+    if (!hasChanged && timeLeft <= 10) {
+      image.src = "image2.png"; // ВАЖНО: подготовь image2.png в папке
+      hasChanged = true;
+    }
+  });
+
+  // Сброс картинки после остановки
+  audio.addEventListener("ended", () => {
+    image.src = "image.jpg";
+  });
+</script>
+
+</body>
+</html>
